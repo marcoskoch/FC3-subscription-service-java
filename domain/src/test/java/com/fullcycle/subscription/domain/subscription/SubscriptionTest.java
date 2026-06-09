@@ -239,7 +239,7 @@ public class SubscriptionTest {
         Assertions.assertNotNull(actualSubscription.lastRenewDate());
         Assertions.assertEquals(expectedLastTransactionId, actualSubscription.lastTransactionId());
         Assertions.assertEquals(expectedCreatedAt, actualSubscription.createdAt());
-        Assertions.assertTrue(actualSubscription.updatedAt().isAfter(expectedUpdatedAt));w
+        Assertions.assertTrue(actualSubscription.updatedAt().isAfter(expectedUpdatedAt));
 
         Assertions.assertEquals(expectedEvents, actualSubscription.domainEvents().size());
         Assertions.assertInstanceOf(SubscriptionCanceled.class, actualSubscription.domainEvents().getFirst());
