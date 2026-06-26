@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
-@Component
+//@Component
 public class AccountInMemoryRepository implements AccountGateway {
 
     private Map<String, Account> db = new ConcurrentHashMap<>();
