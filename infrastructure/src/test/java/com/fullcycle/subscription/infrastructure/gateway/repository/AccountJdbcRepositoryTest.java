@@ -100,6 +100,33 @@ class AccountJdbcRepositoryTest extends AbstractRepositoryTest {
 
     @Test
     @Sql({"classpath:/sql/accounts/seed-account-johndoe.sql"})
+    public void givenJohnDoePersisted_whenQueryByUserIdSuccessfully_shouldReturnAccount() {
+        // given
+        Assertions.assertEquals(1, countAccounts());
+
+        var expectedId = new AccountId("033c7d9eb3cc4eb7840b942fa2194cab");
+        var expectedVersion = 1;
+        var expectedUserId = new UserId("a8b3cf5a-5f81-4822-9ee8-89e768f6095c");
+        var expectedEmail = new Email("john@gmail.com");
+        var expectedName = new Name("John", "Doe");
+        var expectedDocument = new Document.Cpf("12312312332");
+        var expectedAddress = new Address("12332123", "1", "Casa 1", "BR");
+
+        // when
+        var actualAccount = this.accountRepository().accountOfUserId(expectedUserId).get();
+
+        // then
+        assertEquals(expectedId, actualAccount.id());
+        assertEquals(expectedVersion, actualAccount.version());
+        assertEquals(expectedUserId, actualAccount.userId());
+        assertEquals(expectedEmail, actualAccount.email());
+        assertEquals(expectedName, actualAccount.name());
+        assertEquals(expectedDocument, actualAccount.document());
+        assertEquals(expectedAddress, actualAccount.billingAddress());
+    }
+
+    @Test
+    @Sql({"classpath:/sql/accounts/seed-account-johndoe.sql"})
     public void givenJohnDoePersisted_whenUpdateSuccessfully_shouldHaveChangeUserAtTheEndOfOperation() {
         // given
         assertEquals(1, countAccounts());
