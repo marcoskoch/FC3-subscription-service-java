@@ -8,6 +8,8 @@ import com.fullcycle.subscription.infrastructure.jdbc.DatabaseClient;
 import com.fullcycle.subscription.infrastructure.jdbc.JdbcUtils;
 import com.fullcycle.subscription.infrastructure.jdbc.RowMap;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -44,6 +46,7 @@ public class PlanJdbcRepository implements PlanGateway {
     }
 
     @Override
+    @Transactional(propagation = Propagation.REQUIRED)
     public Plan save(final Plan plan) {
         if (plan.version() == 0) {
             return create(plan);

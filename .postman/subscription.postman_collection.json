@@ -1,6 +1,6 @@
 {
   "info": {
-    "_postman_id": "b14c1467-36b2-4261-992f-1a5238552152",
+    "_postman_id": "b7e01df0-fead-4b76-b6c1-a2fc0bd547b9",
     "name": "Subscription",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "6327096"
@@ -20,7 +20,9 @@
                   "postman.setEnvironmentVariable(\"refresh_token\", jsonData.refresh_token);",
                   "postman.setEnvironmentVariable(\"access_token\", jsonData.access_token);"
                 ],
-                "type": "text/javascript"
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
               }
             }
           ],
@@ -43,22 +45,84 @@
                 },
                 {
                   "key": "client_id",
-                  "value": "fc3-admin-do-catalogo",
+                  "value": "fc3-subscription-service",
                   "type": "text"
                 },
                 {
                   "key": "client_secret",
-                  "value": "abc",
+                  "value": "mkdusyXcvNhPxJxuQfvzgFjcPsJtUOy7",
                   "type": "text"
                 },
                 {
                   "key": "username",
-                  "value": "a",
+                  "value": "teste1@gmail.com",
                   "type": "text"
                 },
                 {
                   "key": "password",
                   "value": "123456",
+                  "type": "text"
+                }
+              ]
+            },
+            "url": {
+              "raw": "{{keycloak}}/realms/{{realm}}/protocol/openid-connect/token",
+              "host": [
+                "{{keycloak}}"
+              ],
+              "path": [
+                "realms",
+                "{{realm}}",
+                "protocol",
+                "openid-connect",
+                "token"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Keycloak Login as Adm",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = JSON.parse(responseBody);",
+                  "postman.setEnvironmentVariable(\"refresh_token\", jsonData.refresh_token);",
+                  "postman.setEnvironmentVariable(\"access_token\", jsonData.access_token);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "urlencoded",
+              "urlencoded": [
+                {
+                  "key": "grant_type",
+                  "value": "client_credentials",
+                  "type": "text"
+                },
+                {
+                  "key": "client_id",
+                  "value": "fc3-subscription-service",
+                  "type": "text"
+                },
+                {
+                  "key": "client_secret",
+                  "value": "mkdusyXcvNhPxJxuQfvzgFjcPsJtUOy7",
                   "type": "text"
                 }
               ]
@@ -222,6 +286,16 @@
                 {
                   "name": "Charge an active subscription",
                   "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{access_token}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
                     "method": "PUT",
                     "header": [
                       {
@@ -255,152 +329,7 @@
                       ]
                     }
                   },
-                  "response": [
-                    {
-                      "name": "Charged successfully",
-                      "originalRequest": {
-                        "method": "PUT",
-                        "header": [
-                          {
-                            "key": "Content-Type",
-                            "value": "application/json"
-                          },
-                          {
-                            "key": "Accept",
-                            "value": "application/json"
-                          }
-                        ],
-                        "body": {
-                          "mode": "raw",
-                          "raw": "{\n  \"paymentType\": \"string\",\n  \"creditCardToken\": \"string\"\n}",
-                          "options": {
-                            "raw": {
-                              "headerFamily": "json",
-                              "language": "json"
-                            }
-                          }
-                        },
-                        "url": {
-                          "raw": "{{baseUrl}}/subscriptions/active/charge",
-                          "host": [
-                            "{{baseUrl}}"
-                          ],
-                          "path": [
-                            "subscriptions",
-                            "active",
-                            "charge"
-                          ]
-                        }
-                      },
-                      "status": "OK",
-                      "code": 200,
-                      "_postman_previewlanguage": "json",
-                      "header": [
-                        {
-                          "key": "Content-Type",
-                          "value": "application/json"
-                        }
-                      ],
-                      "cookie": [],
-                      "body": "{\n  \"subscriptionId\": \"string\",\n  \"subscriptionStatus\": \"string\",\n  \"subscriptionDueDate\": \"string\",\n  \"paymentTransactionId\": \"string\",\n  \"paymentTransactionError\": \"string\"\n}"
-                    },
-                    {
-                      "name": "A validation error was observed",
-                      "originalRequest": {
-                        "method": "PUT",
-                        "header": [
-                          {
-                            "key": "Content-Type",
-                            "value": "application/json"
-                          },
-                          {
-                            "key": "Accept",
-                            "value": "application/json"
-                          }
-                        ],
-                        "body": {
-                          "mode": "raw",
-                          "raw": "{\n  \"paymentType\": \"string\",\n  \"creditCardToken\": \"string\"\n}",
-                          "options": {
-                            "raw": {
-                              "headerFamily": "json",
-                              "language": "json"
-                            }
-                          }
-                        },
-                        "url": {
-                          "raw": "{{baseUrl}}/subscriptions/active/charge",
-                          "host": [
-                            "{{baseUrl}}"
-                          ],
-                          "path": [
-                            "subscriptions",
-                            "active",
-                            "charge"
-                          ]
-                        }
-                      },
-                      "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
-                      "code": 422,
-                      "_postman_previewlanguage": "json",
-                      "header": [
-                        {
-                          "key": "Content-Type",
-                          "value": "application/json"
-                        }
-                      ],
-                      "cookie": [],
-                      "body": "{\n  \"subscriptionId\": \"string\",\n  \"subscriptionStatus\": \"string\",\n  \"subscriptionDueDate\": \"string\",\n  \"paymentTransactionId\": \"string\",\n  \"paymentTransactionError\": \"string\"\n}"
-                    },
-                    {
-                      "name": "An unpredictable error was observed",
-                      "originalRequest": {
-                        "method": "PUT",
-                        "header": [
-                          {
-                            "key": "Content-Type",
-                            "value": "application/json"
-                          },
-                          {
-                            "key": "Accept",
-                            "value": "application/json"
-                          }
-                        ],
-                        "body": {
-                          "mode": "raw",
-                          "raw": "{\n  \"paymentType\": \"string\",\n  \"creditCardToken\": \"string\"\n}",
-                          "options": {
-                            "raw": {
-                              "headerFamily": "json",
-                              "language": "json"
-                            }
-                          }
-                        },
-                        "url": {
-                          "raw": "{{baseUrl}}/subscriptions/active/charge",
-                          "host": [
-                            "{{baseUrl}}"
-                          ],
-                          "path": [
-                            "subscriptions",
-                            "active",
-                            "charge"
-                          ]
-                        }
-                      },
-                      "status": "Internal Server Error",
-                      "code": 500,
-                      "_postman_previewlanguage": "json",
-                      "header": [
-                        {
-                          "key": "Content-Type",
-                          "value": "application/json"
-                        }
-                      ],
-                      "cookie": [],
-                      "body": "{\n  \"subscriptionId\": \"string\",\n  \"subscriptionStatus\": \"string\",\n  \"subscriptionDueDate\": \"string\",\n  \"paymentTransactionId\": \"string\",\n  \"paymentTransactionError\": \"string\"\n}"
-                    }
-                  ]
+                  "response": []
                 }
               ]
             },
@@ -410,6 +339,16 @@
                 {
                   "name": "Cancel an active subscription",
                   "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{access_token}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
                     "method": "PUT",
                     "header": [
                       {
@@ -429,110 +368,7 @@
                       ]
                     }
                   },
-                  "response": [
-                    {
-                      "name": "Canceled successfully",
-                      "originalRequest": {
-                        "method": "PUT",
-                        "header": [
-                          {
-                            "key": "Accept",
-                            "value": "application/json"
-                          }
-                        ],
-                        "url": {
-                          "raw": "{{baseUrl}}/subscriptions/active/cancel",
-                          "host": [
-                            "{{baseUrl}}"
-                          ],
-                          "path": [
-                            "subscriptions",
-                            "active",
-                            "cancel"
-                          ]
-                        }
-                      },
-                      "status": "OK",
-                      "code": 200,
-                      "_postman_previewlanguage": "json",
-                      "header": [
-                        {
-                          "key": "Content-Type",
-                          "value": "application/json"
-                        }
-                      ],
-                      "cookie": [],
-                      "body": "{\n  \"subscriptionId\": \"string\",\n  \"subscriptionStatus\": \"string\"\n}"
-                    },
-                    {
-                      "name": "A validation error was observed",
-                      "originalRequest": {
-                        "method": "PUT",
-                        "header": [
-                          {
-                            "key": "Accept",
-                            "value": "application/json"
-                          }
-                        ],
-                        "url": {
-                          "raw": "{{baseUrl}}/subscriptions/active/cancel",
-                          "host": [
-                            "{{baseUrl}}"
-                          ],
-                          "path": [
-                            "subscriptions",
-                            "active",
-                            "cancel"
-                          ]
-                        }
-                      },
-                      "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
-                      "code": 422,
-                      "_postman_previewlanguage": "json",
-                      "header": [
-                        {
-                          "key": "Content-Type",
-                          "value": "application/json"
-                        }
-                      ],
-                      "cookie": [],
-                      "body": "{\n  \"subscriptionId\": \"string\",\n  \"subscriptionStatus\": \"string\"\n}"
-                    },
-                    {
-                      "name": "An unpredictable error was observed",
-                      "originalRequest": {
-                        "method": "PUT",
-                        "header": [
-                          {
-                            "key": "Accept",
-                            "value": "application/json"
-                          }
-                        ],
-                        "url": {
-                          "raw": "{{baseUrl}}/subscriptions/active/cancel",
-                          "host": [
-                            "{{baseUrl}}"
-                          ],
-                          "path": [
-                            "subscriptions",
-                            "active",
-                            "cancel"
-                          ]
-                        }
-                      },
-                      "status": "Internal Server Error",
-                      "code": 500,
-                      "_postman_previewlanguage": "json",
-                      "header": [
-                        {
-                          "key": "Content-Type",
-                          "value": "application/json"
-                        }
-                      ],
-                      "cookie": [],
-                      "body": "{\n  \"subscriptionId\": \"string\",\n  \"subscriptionStatus\": \"string\"\n}"
-                    }
-                  ]
+                  "response": []
                 }
               ]
             }
@@ -541,6 +377,16 @@
         {
           "name": "Create a new subscription",
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "POST",
             "header": [
               {
@@ -572,146 +418,7 @@
               ]
             }
           },
-          "response": [
-            {
-              "name": "Created successfully",
-              "originalRequest": {
-                "method": "POST",
-                "header": [
-                  {
-                    "key": "Content-Type",
-                    "value": "application/json"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"planId\": 9513\n}",
-                  "options": {
-                    "raw": {
-                      "headerFamily": "json",
-                      "language": "json"
-                    }
-                  }
-                },
-                "url": {
-                  "raw": "{{baseUrl}}/subscriptions",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "subscriptions"
-                  ]
-                }
-              },
-              "status": "Created",
-              "code": 201,
-              "_postman_previewlanguage": "json",
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "cookie": [],
-              "body": "{\n  \"subscriptionId\": \"string\"\n}"
-            },
-            {
-              "name": "A validation error was observed",
-              "originalRequest": {
-                "method": "POST",
-                "header": [
-                  {
-                    "key": "Content-Type",
-                    "value": "application/json"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"planId\": 9513\n}",
-                  "options": {
-                    "raw": {
-                      "headerFamily": "json",
-                      "language": "json"
-                    }
-                  }
-                },
-                "url": {
-                  "raw": "{{baseUrl}}/subscriptions",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "subscriptions"
-                  ]
-                }
-              },
-              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
-              "code": 422,
-              "_postman_previewlanguage": "json",
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "cookie": [],
-              "body": "{\n  \"subscriptionId\": \"string\"\n}"
-            },
-            {
-              "name": "An unpredictable error was observed",
-              "originalRequest": {
-                "method": "POST",
-                "header": [
-                  {
-                    "key": "Content-Type",
-                    "value": "application/json"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"planId\": 9513\n}",
-                  "options": {
-                    "raw": {
-                      "headerFamily": "json",
-                      "language": "json"
-                    }
-                  }
-                },
-                "url": {
-                  "raw": "{{baseUrl}}/subscriptions",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "subscriptions"
-                  ]
-                }
-              },
-              "status": "Internal Server Error",
-              "code": 500,
-              "_postman_previewlanguage": "json",
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "cookie": [],
-              "body": "{\n  \"subscriptionId\": \"string\"\n}"
-            }
-          ]
+          "response": []
         }
       ]
     },
@@ -724,6 +431,16 @@
             {
               "name": "Change a plan information",
               "request": {
+                "auth": {
+                  "type": "bearer",
+                  "bearer": [
+                    {
+                      "key": "token",
+                      "value": "{{access_token}}",
+                      "type": "string"
+                    }
+                  ]
+                },
                 "method": "PUT",
                 "header": [
                   {
@@ -762,173 +479,23 @@
                   ]
                 }
               },
-              "response": [
-                {
-                  "name": "Changed successfully",
-                  "originalRequest": {
-                    "method": "PUT",
-                    "header": [
-                      {
-                        "key": "Content-Type",
-                        "value": "application/json"
-                      },
-                      {
-                        "key": "Accept",
-                        "value": "application/json"
-                      }
-                    ],
-                    "body": {
-                      "mode": "raw",
-                      "raw": "{\n  \"currency\": \"str\",\n  \"description\": \"string\",\n  \"name\": \"string\",\n  \"planId\": 3985,\n  \"price\": 6870.846468304301,\n  \"active\": true\n}",
-                      "options": {
-                        "raw": {
-                          "headerFamily": "json",
-                          "language": "json"
-                        }
-                      }
-                    },
-                    "url": {
-                      "raw": "{{baseUrl}}/plans/:planId",
-                      "host": [
-                        "{{baseUrl}}"
-                      ],
-                      "path": [
-                        "plans",
-                        ":planId"
-                      ],
-                      "variable": [
-                        {
-                          "key": "planId",
-                          "value": "6402"
-                        }
-                      ]
-                    }
-                  },
-                  "status": "OK",
-                  "code": 200,
-                  "_postman_previewlanguage": "json",
-                  "header": [
-                    {
-                      "key": "Content-Type",
-                      "value": "application/json"
-                    }
-                  ],
-                  "cookie": [],
-                  "body": "{\n  \"planId\": 9036\n}"
-                },
-                {
-                  "name": "A validation error was observed",
-                  "originalRequest": {
-                    "method": "PUT",
-                    "header": [
-                      {
-                        "key": "Content-Type",
-                        "value": "application/json"
-                      },
-                      {
-                        "key": "Accept",
-                        "value": "application/json"
-                      }
-                    ],
-                    "body": {
-                      "mode": "raw",
-                      "raw": "{\n  \"currency\": \"str\",\n  \"description\": \"string\",\n  \"name\": \"string\",\n  \"planId\": 3985,\n  \"price\": 6870.846468304301,\n  \"active\": true\n}",
-                      "options": {
-                        "raw": {
-                          "headerFamily": "json",
-                          "language": "json"
-                        }
-                      }
-                    },
-                    "url": {
-                      "raw": "{{baseUrl}}/plans/:planId",
-                      "host": [
-                        "{{baseUrl}}"
-                      ],
-                      "path": [
-                        "plans",
-                        ":planId"
-                      ],
-                      "variable": [
-                        {
-                          "key": "planId",
-                          "value": "6402"
-                        }
-                      ]
-                    }
-                  },
-                  "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
-                  "code": 422,
-                  "_postman_previewlanguage": "json",
-                  "header": [
-                    {
-                      "key": "Content-Type",
-                      "value": "application/json"
-                    }
-                  ],
-                  "cookie": [],
-                  "body": "{\n  \"planId\": 9036\n}"
-                },
-                {
-                  "name": "An unpredictable error was observed",
-                  "originalRequest": {
-                    "method": "PUT",
-                    "header": [
-                      {
-                        "key": "Content-Type",
-                        "value": "application/json"
-                      },
-                      {
-                        "key": "Accept",
-                        "value": "application/json"
-                      }
-                    ],
-                    "body": {
-                      "mode": "raw",
-                      "raw": "{\n  \"currency\": \"str\",\n  \"description\": \"string\",\n  \"name\": \"string\",\n  \"planId\": 3985,\n  \"price\": 6870.846468304301,\n  \"active\": true\n}",
-                      "options": {
-                        "raw": {
-                          "headerFamily": "json",
-                          "language": "json"
-                        }
-                      }
-                    },
-                    "url": {
-                      "raw": "{{baseUrl}}/plans/:planId",
-                      "host": [
-                        "{{baseUrl}}"
-                      ],
-                      "path": [
-                        "plans",
-                        ":planId"
-                      ],
-                      "variable": [
-                        {
-                          "key": "planId",
-                          "value": "6402"
-                        }
-                      ]
-                    }
-                  },
-                  "status": "Internal Server Error",
-                  "code": 500,
-                  "_postman_previewlanguage": "json",
-                  "header": [
-                    {
-                      "key": "Content-Type",
-                      "value": "application/json"
-                    }
-                  ],
-                  "cookie": [],
-                  "body": "{\n  \"planId\": 9036\n}"
-                }
-              ]
+              "response": []
             }
           ]
         },
         {
           "name": "Create a new plan",
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{access_token}}",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "POST",
             "header": [
               {
@@ -942,7 +509,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"currency\": \"str\",\n  \"description\": \"string\",\n  \"name\": \"string\",\n  \"price\": 9818.521950430026,\n  \"active\": false\n}",
+              "raw": "{\n  \"currency\": \"BRL\",\n  \"description\": \"Plano teste\",\n  \"name\": \"Mensal\",\n  \"price\": 19.99,\n  \"active\": true\n}",
               "options": {
                 "raw": {
                   "headerFamily": "json",
@@ -960,146 +527,7 @@
               ]
             }
           },
-          "response": [
-            {
-              "name": "Created successfully",
-              "originalRequest": {
-                "method": "POST",
-                "header": [
-                  {
-                    "key": "Content-Type",
-                    "value": "application/json"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"currency\": \"str\",\n  \"description\": \"string\",\n  \"name\": \"string\",\n  \"price\": 9818.521950430026,\n  \"active\": false\n}",
-                  "options": {
-                    "raw": {
-                      "headerFamily": "json",
-                      "language": "json"
-                    }
-                  }
-                },
-                "url": {
-                  "raw": "{{baseUrl}}/plans",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "plans"
-                  ]
-                }
-              },
-              "status": "Created",
-              "code": 201,
-              "_postman_previewlanguage": "json",
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "cookie": [],
-              "body": "{\n  \"planId\": 9036\n}"
-            },
-            {
-              "name": "A validation error was observed",
-              "originalRequest": {
-                "method": "POST",
-                "header": [
-                  {
-                    "key": "Content-Type",
-                    "value": "application/json"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"currency\": \"str\",\n  \"description\": \"string\",\n  \"name\": \"string\",\n  \"price\": 9818.521950430026,\n  \"active\": false\n}",
-                  "options": {
-                    "raw": {
-                      "headerFamily": "json",
-                      "language": "json"
-                    }
-                  }
-                },
-                "url": {
-                  "raw": "{{baseUrl}}/plans",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "plans"
-                  ]
-                }
-              },
-              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
-              "code": 422,
-              "_postman_previewlanguage": "json",
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "cookie": [],
-              "body": "{\n  \"planId\": 9036\n}"
-            },
-            {
-              "name": "An unpredictable error was observed",
-              "originalRequest": {
-                "method": "POST",
-                "header": [
-                  {
-                    "key": "Content-Type",
-                    "value": "application/json"
-                  },
-                  {
-                    "key": "Accept",
-                    "value": "application/json"
-                  }
-                ],
-                "body": {
-                  "mode": "raw",
-                  "raw": "{\n  \"currency\": \"str\",\n  \"description\": \"string\",\n  \"name\": \"string\",\n  \"price\": 9818.521950430026,\n  \"active\": false\n}",
-                  "options": {
-                    "raw": {
-                      "headerFamily": "json",
-                      "language": "json"
-                    }
-                  }
-                },
-                "url": {
-                  "raw": "{{baseUrl}}/plans",
-                  "host": [
-                    "{{baseUrl}}"
-                  ],
-                  "path": [
-                    "plans"
-                  ]
-                }
-              },
-              "status": "Internal Server Error",
-              "code": 500,
-              "_postman_previewlanguage": "json",
-              "header": [
-                {
-                  "key": "Content-Type",
-                  "value": "application/json"
-                }
-              ],
-              "cookie": [],
-              "body": "{\n  \"planId\": 9036\n}"
-            }
-          ]
+          "response": []
         }
       ]
     },
@@ -1115,6 +543,16 @@
                 {
                   "name": "Update account billing information",
                   "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "{{access_token}}",
+                          "type": "string"
+                        }
+                      ]
+                    },
                     "method": "PUT",
                     "header": [
                       {
@@ -1153,167 +591,7 @@
                       ]
                     }
                   },
-                  "response": [
-                    {
-                      "name": "Updated successfully",
-                      "originalRequest": {
-                        "method": "PUT",
-                        "header": [
-                          {
-                            "key": "Content-Type",
-                            "value": "application/json"
-                          },
-                          {
-                            "key": "Accept",
-                            "value": "application/json"
-                          }
-                        ],
-                        "body": {
-                          "mode": "raw",
-                          "raw": "{\n  \"country\": \"string\",\n  \"number\": \"string\",\n  \"zipcode\": \"string\",\n  \"complement\": \"string\"\n}",
-                          "options": {
-                            "raw": {
-                              "headerFamily": "json",
-                              "language": "json"
-                            }
-                          }
-                        },
-                        "url": {
-                          "raw": "{{baseUrl}}/accounts/:accountId/billing-info",
-                          "host": [
-                            "{{baseUrl}}"
-                          ],
-                          "path": [
-                            "accounts",
-                            ":accountId",
-                            "billing-info"
-                          ],
-                          "variable": [
-                            {
-                              "key": "accountId"
-                            }
-                          ]
-                        }
-                      },
-                      "status": "Accepted",
-                      "code": 202,
-                      "_postman_previewlanguage": "json",
-                      "header": [
-                        {
-                          "key": "Content-Type",
-                          "value": "application/json"
-                        }
-                      ],
-                      "cookie": [],
-                      "body": "{\n  \"accountId\": \"string\"\n}"
-                    },
-                    {
-                      "name": "A validation error was observed",
-                      "originalRequest": {
-                        "method": "PUT",
-                        "header": [
-                          {
-                            "key": "Content-Type",
-                            "value": "application/json"
-                          },
-                          {
-                            "key": "Accept",
-                            "value": "application/json"
-                          }
-                        ],
-                        "body": {
-                          "mode": "raw",
-                          "raw": "{\n  \"country\": \"string\",\n  \"number\": \"string\",\n  \"zipcode\": \"string\",\n  \"complement\": \"string\"\n}",
-                          "options": {
-                            "raw": {
-                              "headerFamily": "json",
-                              "language": "json"
-                            }
-                          }
-                        },
-                        "url": {
-                          "raw": "{{baseUrl}}/accounts/:accountId/billing-info",
-                          "host": [
-                            "{{baseUrl}}"
-                          ],
-                          "path": [
-                            "accounts",
-                            ":accountId",
-                            "billing-info"
-                          ],
-                          "variable": [
-                            {
-                              "key": "accountId"
-                            }
-                          ]
-                        }
-                      },
-                      "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
-                      "code": 422,
-                      "_postman_previewlanguage": "json",
-                      "header": [
-                        {
-                          "key": "Content-Type",
-                          "value": "application/json"
-                        }
-                      ],
-                      "cookie": [],
-                      "body": "{\n  \"accountId\": \"string\"\n}"
-                    },
-                    {
-                      "name": "An unpredictable error was observed",
-                      "originalRequest": {
-                        "method": "PUT",
-                        "header": [
-                          {
-                            "key": "Content-Type",
-                            "value": "application/json"
-                          },
-                          {
-                            "key": "Accept",
-                            "value": "application/json"
-                          }
-                        ],
-                        "body": {
-                          "mode": "raw",
-                          "raw": "{\n  \"country\": \"string\",\n  \"number\": \"string\",\n  \"zipcode\": \"string\",\n  \"complement\": \"string\"\n}",
-                          "options": {
-                            "raw": {
-                              "headerFamily": "json",
-                              "language": "json"
-                            }
-                          }
-                        },
-                        "url": {
-                          "raw": "{{baseUrl}}/accounts/:accountId/billing-info",
-                          "host": [
-                            "{{baseUrl}}"
-                          ],
-                          "path": [
-                            "accounts",
-                            ":accountId",
-                            "billing-info"
-                          ],
-                          "variable": [
-                            {
-                              "key": "accountId"
-                            }
-                          ]
-                        }
-                      },
-                      "status": "Internal Server Error",
-                      "code": 500,
-                      "_postman_previewlanguage": "json",
-                      "header": [
-                        {
-                          "key": "Content-Type",
-                          "value": "application/json"
-                        }
-                      ],
-                      "cookie": [],
-                      "body": "{\n  \"accountId\": \"string\"\n}"
-                    }
-                  ]
+                  "response": []
                 }
               ]
             }
@@ -1357,149 +635,7 @@
                   ]
                 }
               },
-              "response": [
-                {
-                  "name": "Created successfully",
-                  "originalRequest": {
-                    "method": "POST",
-                    "header": [
-                      {
-                        "key": "Content-Type",
-                        "value": "application/json"
-                      },
-                      {
-                        "key": "Accept",
-                        "value": "application/json"
-                      }
-                    ],
-                    "body": {
-                      "mode": "raw",
-                      "raw": "{\n  \"document_number\": \"string\",\n  \"document_type\": \"string\",\n  \"password\": \"string\",\n  \"email\": \"string\",\n  \"lastname\": \"string\",\n  \"firstname\": \"string\"\n}",
-                      "options": {
-                        "raw": {
-                          "headerFamily": "json",
-                          "language": "json"
-                        }
-                      }
-                    },
-                    "url": {
-                      "raw": "{{baseUrl}}/accounts/sign-up",
-                      "host": [
-                        "{{baseUrl}}"
-                      ],
-                      "path": [
-                        "accounts",
-                        "sign-up"
-                      ]
-                    }
-                  },
-                  "status": "Created",
-                  "code": 201,
-                  "_postman_previewlanguage": "json",
-                  "header": [
-                    {
-                      "key": "Content-Type",
-                      "value": "application/json"
-                    }
-                  ],
-                  "cookie": [],
-                  "body": "{\n  \"accountId\": \"string\"\n}"
-                },
-                {
-                  "name": "A validation error was observed",
-                  "originalRequest": {
-                    "method": "POST",
-                    "header": [
-                      {
-                        "key": "Content-Type",
-                        "value": "application/json"
-                      },
-                      {
-                        "key": "Accept",
-                        "value": "application/json"
-                      }
-                    ],
-                    "body": {
-                      "mode": "raw",
-                      "raw": "{\n  \"document_number\": \"string\",\n  \"document_type\": \"string\",\n  \"password\": \"string\",\n  \"email\": \"string\",\n  \"lastname\": \"string\",\n  \"firstname\": \"string\"\n}",
-                      "options": {
-                        "raw": {
-                          "headerFamily": "json",
-                          "language": "json"
-                        }
-                      }
-                    },
-                    "url": {
-                      "raw": "{{baseUrl}}/accounts/sign-up",
-                      "host": [
-                        "{{baseUrl}}"
-                      ],
-                      "path": [
-                        "accounts",
-                        "sign-up"
-                      ]
-                    }
-                  },
-                  "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
-                  "code": 422,
-                  "_postman_previewlanguage": "json",
-                  "header": [
-                    {
-                      "key": "Content-Type",
-                      "value": "application/json"
-                    }
-                  ],
-                  "cookie": [],
-                  "body": "{\n  \"accountId\": \"string\"\n}"
-                },
-                {
-                  "name": "An unpredictable error was observed",
-                  "originalRequest": {
-                    "method": "POST",
-                    "header": [
-                      {
-                        "key": "Content-Type",
-                        "value": "application/json"
-                      },
-                      {
-                        "key": "Accept",
-                        "value": "application/json"
-                      }
-                    ],
-                    "body": {
-                      "mode": "raw",
-                      "raw": "{\n  \"document_number\": \"string\",\n  \"document_type\": \"string\",\n  \"password\": \"string\",\n  \"email\": \"string\",\n  \"lastname\": \"string\",\n  \"firstname\": \"string\"\n}",
-                      "options": {
-                        "raw": {
-                          "headerFamily": "json",
-                          "language": "json"
-                        }
-                      }
-                    },
-                    "url": {
-                      "raw": "{{baseUrl}}/accounts/sign-up",
-                      "host": [
-                        "{{baseUrl}}"
-                      ],
-                      "path": [
-                        "accounts",
-                        "sign-up"
-                      ]
-                    }
-                  },
-                  "status": "Internal Server Error",
-                  "code": 500,
-                  "_postman_previewlanguage": "json",
-                  "header": [
-                    {
-                      "key": "Content-Type",
-                      "value": "application/json"
-                    }
-                  ],
-                  "cookie": [],
-                  "body": "{\n  \"accountId\": \"string\"\n}"
-                }
-              ]
+              "response": []
             }
           ]
         }
