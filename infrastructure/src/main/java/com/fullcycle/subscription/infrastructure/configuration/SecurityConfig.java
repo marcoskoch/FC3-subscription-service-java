@@ -4,6 +4,7 @@ import com.fullcycle.subscription.infrastructure.authentication.principal.Keyclo
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.core.env.Environment;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -17,21 +18,26 @@ import org.springframework.security.web.SecurityFilterChain;
 public class SecurityConfig {
 
     private final KeycloakJwtConverter jwtConverter;
+    private final Environment environment;
 
-    public SecurityConfig(KeycloakJwtConverter jwtConverter) {
+    public SecurityConfig(KeycloakJwtConverter jwtConverter, Environment environment) {
         this.jwtConverter = jwtConverter;
+        this.environment = environment;
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(final HttpSecurity http) throws Exception {
+        final var isSandbox = environment.matchesProfiles("sandbox");
         return http
                 .csrf(csrf -> {
                     csrf.disable();
                 })
                 .authorizeHttpRequests(authorize -> {
-                    authorize
-                            .requestMatchers("/accounts/sign-up").permitAll()
-                            .anyRequest().authenticated();
+                    authorize.requestMatchers("/accounts/sign-up").permitAll();
+                    if (isSandbox) {
+                        authorize.requestMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll();
+                    }
+                    authorize.anyRequest().authenticated();
                 })
                 .oauth2ResourceServer(oauth -> {
                     oauth.jwt(j -> j.jwtAuthenticationConverter(jwtConverter));

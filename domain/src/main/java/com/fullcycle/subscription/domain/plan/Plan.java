@@ -78,7 +78,6 @@ public class Plan extends AggregateRoot<PlanId> {
             }
         }
 
-        this.setVersion(version() + 1);
         this.setUpdatedAt(InstantUtils.now());
     }
 

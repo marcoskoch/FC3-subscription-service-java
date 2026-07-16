@@ -413,7 +413,7 @@ public class PlanTest {
     public void givenPlan_whenExecuteWithoutCommands_ShouldDoNothing() {
         // given
         var expectedId = new PlanId(123L);
-        var expectedVersion = 1;
+        var expectedVersion = 0;
         var expectedName = "Plus";
         var expectedDescription = """
                 Lero lero
@@ -442,7 +442,7 @@ public class PlanTest {
     public void givenInactivePlan_whenExecuteActiveCommand_ShouldActivate() throws InterruptedException {
         // given
         var expectedId = new PlanId(123L);
-        var expectedVersion = 1;
+        var expectedVersion = 0;
         var expectedName = "Plus";
         var expectedDescription = """
                 Lero lero
@@ -474,7 +474,7 @@ public class PlanTest {
     public void givenActivePlan_whenExecuteInactivateCommand_ShouldInactivate() throws InterruptedException {
         // given
         var expectedId = new PlanId(123L);
-        var expectedVersion = 1;
+        var expectedVersion = 0;
         var expectedName = "Plus";
         var expectedDescription = """
                 Lero lero
@@ -506,7 +506,7 @@ public class PlanTest {
     public void givenPlan_whenExecuteChangeCommand_ShouldUpdateAttributes() throws InterruptedException {
         // given
         var expectedId = new PlanId(123L);
-        var expectedVersion = 1;
+        var expectedVersion = 0;
         var expectedName = "Plus";
         var expectedDescription = """
                 Lero lero
