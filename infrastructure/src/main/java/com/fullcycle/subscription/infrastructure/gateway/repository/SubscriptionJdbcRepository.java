@@ -36,7 +36,7 @@ public class SubscriptionJdbcRepository implements SubscriptionGateway {
 
     @Override
     public Optional<Subscription> latestSubscriptionOfAccount(final AccountId accountId) {
-        final var sql = "SELECT id, version, account_id, plan_id, status, created_at, updated_at, due_date, last_renew_dt, last_transaction_id FROM subscriptions WHERE account_id = :accountId";
+        final var sql = "SELECT id, version, account_id, plan_id, status, created_at, updated_at, due_date, last_renew_dt, last_transaction_id FROM subscriptions WHERE account_id = :accountId ORDER BY created_at DESC LIMIT 1";
         return this.database.queryOne(sql, Map.of("accountId", accountId.value()), subscriptionMapper());
     }
 
