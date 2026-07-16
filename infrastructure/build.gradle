@@ -24,7 +24,7 @@ bootJar {
 }
 
 ext {
-    springdoc = "1.8.0"
+    springdoc = "2.3.0"
 }
 
 dependencies {
@@ -33,8 +33,7 @@ dependencies {
 
     implementation("com.fasterxml.jackson.module:jackson-module-blackbird")
 
-    implementation("org.springdoc:springdoc-openapi-webmvc-core:$springdoc")
-    implementation("org.springdoc:springdoc-openapi-ui:$springdoc")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:$springdoc")
 
     implementation("org.springframework.boot:spring-boot-starter-web") {
         exclude module: 'spring-boot-starter-tomcat'
@@ -72,7 +71,7 @@ dependencyManagement {
 }
 
 flyway {
-    url = System.getenv('FLYWAY_DB') ?: 'jdbc:mysql://localhost:3306/adm_videos'
+    url = System.getenv('FLYWAY_DB') ?: 'jdbc:mysql://localhost:3306/subscription'
     user = System.getenv('FLYWAY_USER') ?: 'root'
     password = System.getenv('FLYWAY_PASS') ?: '123456'
 }
